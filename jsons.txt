@@ -1,0 +1,45 @@
+{
+    "nome":"Bruno Zumba",
+    "email":"bruno@gmail.com",
+    "senha" :"123",
+    "foto" :"err",
+    "endereco" :"Sao Bernardo",
+    "cpf":"2222",
+    "latitude":"123",
+    "longitude" :"123"
+}
+
+
+
+//Gerente
+{
+    "nome":"Bruno Zumba",
+    "email":"bruno@ggmail.com",
+    "senha" :"123",
+    "foto" :"err",
+    "endereco" :"Sao Bernardo",
+    "cpf":"2222ddd",
+    "latitude":"123",
+    "longitude" :"123"
+}
+
+
+//Comercio
+
+{
+    "nome":"Kakidiako Antonio",
+    "email":"kakidiakoafonso@gmail.com",
+    "foto" :"kaki",
+    "endereco" :"Sao Paulo",
+    "latitude":"123",
+    "longitude" :"123",
+    "status" :false
+}
+
+
+// GerenteComercio
+
+{
+    "idGerente":"fff",
+    "idComercio":"eeeee"
+}

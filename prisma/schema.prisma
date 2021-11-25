@@ -1,0 +1,97 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id String @default(uuid()) @id
+  nome String
+  email String @unique
+  senha String
+  foto String @default("")
+  endereco String
+  cpf String @unique
+  latitude String
+  longitude String
+}
+
+model Gerente {
+  id String @default(uuid()) @id
+  nome String
+  email String @unique
+  senha String
+  foto String @default("qwerty")
+  endereco String
+  cpf String @unique
+  latitude String
+  longitude String
+  gerenteComercio GerenteComercio[]
+
+}
+
+model GerenteComercio {
+  id String @default(uuid()) @id
+  idGerente String
+  idComercio String
+  comercio Comercio @relation (fields: [idComercio],references:[id])
+  gerente Gerente @relation (fields: [idGerente],references:[id])
+}
+
+model Comercio {
+  id String @default(uuid()) @id
+  nome String
+  email String
+  foto String @default("")
+  endereco String
+  latitude String
+  longitude String
+  status Boolean
+  gerenteComercio GerenteComercio[]
+  ProdutoComercio ProdutoComercio[]
+}
+
+
+model ProdutoComercio {
+  id String @default(uuid()) @id
+  idProduto String
+  idComercio String
+  produto Produto @relation(fields: [idProduto],references:[id])
+  comercio Comercio @relation(fields: [idComercio],references:[id])
+}
+
+model Produto{
+  id String @default(uuid()) @id
+  nome String
+  foto String
+  descricao String
+  preco String
+  quantidade Int @default(0)
+  ProdutoComercio ProdutoComercio[]
+}
+
+
+
+// model Categoria{
+//   id String @default(uuid()) @id
+//   nome String @unique
+//   descricao String
+//   quantidade Int @default(0)
+
+// }
+
+// model ProdutoCategoria{
+//    id String @default(uuid()) @id
+//    idCategoria String
+//    idProduto String
+//    idProdutoComercio String
+//    produtoComercio ProdutoComercio @relation(fields: [idProdutoComercio],references:[id])
+//    produto Produto @relation(fields: [idProduto],references:[id])
+//    categoria Categoria @relation(fields: [idCategoria],references:[id])
+// }
