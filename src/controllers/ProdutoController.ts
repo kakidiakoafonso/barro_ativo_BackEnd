@@ -1,24 +1,24 @@
 import {Request,Response} from "express"
-import UsuarioService from "../service/UsuarioService"
+import produtoService from "../service/ProdutoService"
 
-const service = new UsuarioService()
-class Usuariocotroller 
+const service = new produtoService()
+class GerenteController 
 {
     async create(request:Request,response:Response) 
     {
-        const novoUsuario = request.body
+        const novoProduto = request.body
         try 
         {
-            const usuarioCriado = await service.create(novoUsuario)
-            if(usuarioCriado=== 0)
+            const produtoCriado = await service.create(novoProduto)
+            if(produtoCriado=== 0)
             {
                 response.send("Email ou cpf ja usado")
             }
-            if(usuarioCriado=== 1)
+            if(produtoCriado=== 1)
             {
-                response.send("Usuario nao criado")
+                response.send("Gerente nao criado")
             }
-            response.status(201).send(usuarioCriado)
+            response.send(produtoCriado)
         } catch (error) 
         {
             response.send(error)
@@ -28,16 +28,16 @@ class Usuariocotroller
     {
         try 
         {
-            const usuarios = await service.read()
-            if(usuarios=== 0)
+            const produtos = await service.read()
+            if(produtos=== 0)
             {
                 response.send("Sem usuarios")
             }
-            if(usuarios=== 1)
+            if(produtos=== 1)
             {
                 response.send("Usuario nao criado")
             }
-            response.send(usuarios)
+            response.send(produtos)
         } catch (error) 
         {
             response.send(error)
@@ -45,20 +45,20 @@ class Usuariocotroller
     }
     async update(request:Request,response:Response) 
     {
-        const dadosUsuario = request.body
-        const id = "e67a8b8f-01ac-421a-8ec5-c15c87601c33"
+        const dadosProdutos = request.body
+        const id = request.params.id
         try 
         {
-            const usuarioCriado = await service.update(dadosUsuario,id)
-            if(usuarioCriado=== 0)
+            const produtoAtualizado = await service.update(dadosProdutos,id)
+            if(produtoAtualizado=== 0)
             {
                 response.send("Email ou cpf ja usado")
             }
-            if(usuarioCriado=== 1)
+            if(produtoAtualizado=== 1)
             {
                 response.send("Usuario nao criado")
             }
-            response.send(usuarioCriado)
+            response.send(produtoAtualizado)
         } catch (error) 
         {
             response.send(error)
@@ -66,23 +66,23 @@ class Usuariocotroller
     }
     async delete(request:Request,response:Response) 
     {
-        const id = "e67a8b8f-01ac-421a-8ec5-c15c87601c33"
+        const id = request.params.id
         try 
         {
-            const usuarioRemovido = await service.delete(id)
-            if(usuarioRemovido=== 0)
+            const produtoRemovido = await service.delete(id)
+            if(produtoRemovido=== 0)
             {
                 response.send("Erro do servidor")
             }
-            if(usuarioRemovido=== 1)
+            if(produtoRemovido=== 1)
             {
                 response.send("Usuario nao existe")
             }
-            response.send(usuarioRemovido)
+            response.send(produtoRemovido)
         } catch (error) 
         {
             response.send(error)
         }
     }
 }
-export = Usuariocotroller
+export = GerenteController

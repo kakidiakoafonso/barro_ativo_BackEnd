@@ -58,5 +58,18 @@ class UsuarioService
             return 0
         }
     }
+    async login(email:string) 
+    {
+        try 
+        {
+            const usuario = await prisma.usuario.findUnique({where:{email:email}})
+            if(!usuario) return 1
+            return usuario
+        } catch (error) 
+        {
+            console.log(error);
+            return 0
+        }
+    }
 }
 export = UsuarioService

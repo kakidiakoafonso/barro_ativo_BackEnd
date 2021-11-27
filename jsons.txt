@@ -43,3 +43,21 @@
     "idGerente":"fff",
     "idComercio":"eeeee"
 }
+
+
+//Produto
+
+{
+    "nome":"Arroz Tio Joao", 
+    "foto":"ffffff",
+    "descricao":"1 Kilo de arroz gosoto",
+    "preco":"1500 kz"
+}
+
+
+//Produto Comercio
+
+{
+    "idProduto":"",
+    "idComercio":""
+}
