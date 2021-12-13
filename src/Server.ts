@@ -8,7 +8,7 @@ import routeProdutoComercio from "./routes/routes.produtoComercio"
 import routeUsuario from "./routes/routes.usuario"
 import routeUsuarioAuth from "./routes/routes.usuarioAuth"
 import { AuthCheckUsuario } from "./middleware/AuhtCheckUsuario"
-
+const port = process.env.PORT || 400
 const app = express()
 app.use(express.json())
 app.use("/auth",routeUsuarioAuth)
@@ -27,4 +27,4 @@ app.get("/ola",(req,res)=>{
     res.send("Bom dia! testandoa a conexao")
 })
 
-app.listen(400,()=>console.log("Aplicacao rodando na porta 400"))
+app.listen(port,()=>console.log(`Aplicacao rodando na porta ${port}`))
