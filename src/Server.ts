@@ -23,5 +23,8 @@ app.get("/teste",AuthCheckUsuario, (req,res)=>{
     const {usuario} = req.body
     res.send(usuario)
 })
+app.get("/ola",(req,res)=>{
+    res.send("Bom dia! testandoa a conexao")
+})
 
 app.listen(400,()=>console.log("Aplicacao rodando na porta 400"))
