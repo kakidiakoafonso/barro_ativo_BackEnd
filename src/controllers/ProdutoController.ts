@@ -1,15 +1,38 @@
 import {Request,Response} from "express"
-import produtoService from "../service/ProdutoService"
+import ProdutoService from "../service/ProdutoService"
+import ProdutoComercioService from "../service/ProdutoComercioService"
 
-const service = new produtoService()
+const produtoService = new ProdutoService()
+const produtoComercioService = new ProdutoComercioService()
+
+
+
+interface Provider {
+    region: string,
+    country: string,
+    locale: string,
+    company: string
+}
+
 class GerenteController 
 {
     async create(request:Request,response:Response) 
     {
-        const novoProduto = request.body
+        const idComercio = request.body.comercio.id
+        console.log(idComercio);
+        
+        
+        const novoProduto = 
+        {
+            nome: request.body.nome,
+            foto: request.body.foto,
+            descricao: request.body.descricao,
+            preco: request.body.preco,
+            quantidade: request.body.quantidade
+        }
         try 
         {
-            const produtoCriado = await service.create(novoProduto)
+            const produtoCriado = await produtoService.create(novoProduto)
             if(produtoCriado=== 0)
             {
                 response.send("Email ou cpf ja usado")
@@ -18,7 +41,22 @@ class GerenteController
             {
                 response.send("Gerente nao criado")
             }
-            response.send(produtoCriado)
+            if(produtoCriado!==1 &&produtoCriado!==0)
+            {
+                let idProduto = produtoCriado.id
+                let idComercio = request.body.comercio.id
+                
+                const novoProdutoComercio = await produtoComercioService.create(idProduto,idComercio)
+                if(novoProdutoComercio=== 0)
+                {
+                    return response.send("Erro ao criar relacao, ja existe")
+                }
+                if(novoProdutoComercio=== 1)
+                {
+                    return response.send("Erro ao criar relacao, nao criado")
+                }
+                return response.send(produtoCriado)
+            }
         } catch (error) 
         {
             response.send(error)
@@ -28,7 +66,7 @@ class GerenteController
     {
         try 
         {
-            const produtos = await service.read()
+            const produtos = await produtoService.read()
             if(produtos=== 0)
             {
                 response.send("Sem usuarios")
@@ -49,7 +87,7 @@ class GerenteController
         const id = request.params.id
         try 
         {
-            const produtoAtualizado = await service.update(dadosProdutos,id)
+            const produtoAtualizado = await produtoService.update(dadosProdutos,id)
             if(produtoAtualizado=== 0)
             {
                 response.send("Email ou cpf ja usado")
@@ -69,7 +107,7 @@ class GerenteController
         const id = request.params.id
         try 
         {
-            const produtoRemovido = await service.delete(id)
+            const produtoRemovido = await produtoService.delete(id)
             if(produtoRemovido=== 0)
             {
                 response.send("Erro do servidor")

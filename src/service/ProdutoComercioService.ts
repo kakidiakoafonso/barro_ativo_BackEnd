@@ -2,11 +2,15 @@ import {Request,Response} from "express"
 import { prisma } from "../prisma/prisma"
 class ProdutoComercioService
 {
-    async create(data) 
+    async create(idProduto:string,idComercio:string) 
     {
+        const data = {idProduto:idProduto,idComercio:idComercio}
         try 
         {
-            const novo = await prisma.produtoComercio.create({data:data, 
+            const novo = await prisma.produtoComercio.create({data:{
+                idProduto:idProduto,
+                idComercio:idComercio
+            }, 
             include:{comercio:true,produto:true}})
 
             if(!novo) return 1

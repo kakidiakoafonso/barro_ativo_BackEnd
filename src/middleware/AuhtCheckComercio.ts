@@ -4,12 +4,11 @@ import { verify } from "jsonwebtoken"
 interface Ipayload {
     sub:string
 }
-export async function AuthCheckUsuario (request:Request,response:Response,next:NextFunction)
+export async function AuthCheckComercio (request:Request,response:Response,next:NextFunction)
 {
     const bearerToken = request.headers.authorization
     const token = bearerToken.split(" ")[1]
 
-    
     if(!token)
     {
         return response.status(401).json(
@@ -24,7 +23,7 @@ export async function AuthCheckUsuario (request:Request,response:Response,next:N
                 return response.status(401).
                 json({error:"Erro na verificacao do token"})
             }
-            request.body.usuario = dados.usuario
+            request.body.comercio = dados.comercio
             next()
             
         })

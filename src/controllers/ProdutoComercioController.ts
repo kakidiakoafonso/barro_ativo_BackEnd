@@ -8,15 +8,9 @@ class ProdutoComercioController
 {
     async create(request:Request,response:Response) 
     {
-        const  idComercio = request.params.id
-        const novoproduto = request.body
-        try 
-        {
-            const produtoResposta = await produtoService.create(novoproduto)
-            if(produtoResposta!==0 && produtoResposta!==1)
-            {
-                const idProduto = produtoResposta.id
-                const produtoComercioCriado = await service.create({idProduto ,idComercio})
+        const {idProduto,idComercio} = request.body
+        
+                const produtoComercioCriado = await service.create(idProduto,idComercio)
                 if(produtoComercioCriado===0)
                 {
                     return response.send("Email ou cpf ja usado")
@@ -26,14 +20,7 @@ class ProdutoComercioController
                     return response.send("Gerente nao criado")
                 }
                 return response.send(produtoComercioCriado)
-            }
-            
-            return response.send(produtoResposta)
-
-        } catch (error) 
-        {
-            response.send(error)
-        }
+           
     }
     async read(request:Request,response:Response) 
     {

@@ -5,7 +5,7 @@ const routeProdutoComercio = Router()
 const controller = new produtoComercioCotroller()
 
 //CRUD
-routeProdutoComercio.post("/:id",controller.create)
+routeProdutoComercio.post("/",controller.create)
 routeProdutoComercio.get("/",controller.read)
 routeProdutoComercio.put("/",controller.update)
 routeProdutoComercio.delete("/:id",controller.delete)

@@ -59,5 +59,19 @@ class ComercioService
             return 0
         }
     }
+
+    async login(email:string) 
+    {
+        try 
+        {
+            const comercio = await prisma.comercio.findUnique({where:{email:email}})
+            if(!comercio) return 1
+            return comercio
+        } catch (error) 
+        {
+            console.log(error);
+            return 0
+        }
+    }
 }
 export = ComercioService

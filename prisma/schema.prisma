@@ -40,20 +40,19 @@ model GerenteComercio {
   id String @default(uuid()) @id
   idGerente String
   idComercio String
-  comercio Comercio @relation (fields: [idComercio],references:[id])
   gerente Gerente @relation (fields: [idGerente],references:[id])
 }
 
 model Comercio {
   id String @default(uuid()) @id
   nome String
-  email String
-  foto String @default("")
+  email String @unique
+  senha String
+  foto String @default("https://unsplash.com/photos/iFgRcqHznqg")
   endereco String
-  latitude String
-  longitude String
+  categoria String
+  telefone String
   status Boolean
-  gerenteComercio GerenteComercio[]
   ProdutoComercio ProdutoComercio[]
 }
 
