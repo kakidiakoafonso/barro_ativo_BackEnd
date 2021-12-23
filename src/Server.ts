@@ -29,7 +29,7 @@ app.use("/produto",routeProduto)
 app.use("/produtocomercio",routeProdutoComercio)
 
 
-app.get("/doc",(req,res)=>
+app.get("/",(req,res)=>
 {
     res.sendFile(__dirname+'/public/doc.html')
 })
