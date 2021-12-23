@@ -1,5 +1,6 @@
 import express from "express"
 import "dotenv/config"
+import cors from 'cors'
 import routeComercio from "./routes/routes.comercio"
 import routeGerente from "./routes/routes.gerente"
 import routeGerenteComercio from "./routes/routes.gerenteComercio"
@@ -17,6 +18,7 @@ import { AuthCheckComercio } from "./middleware/AuhtCheckComercio"
 const port = process.env.PORT || 400
 const app = express()
 app.use(express.json())
+app.use(cors())
 app.use("/auth/usuario",routeUsuarioAuth)
 app.use("/auth/comercio",routeComercioAuth)
 app.use("/usuario",routeUsuario)
