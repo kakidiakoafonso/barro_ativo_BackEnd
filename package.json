@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run migrate",
     "dev": "ts-node-dev src/Server.ts",
     "start": "node build/Server.js",
+    "migrate": "npx prisma db push --preview-feature",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
