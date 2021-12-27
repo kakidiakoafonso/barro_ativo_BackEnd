@@ -7,7 +7,7 @@ class GerenteComercioService
         try 
         {
             const novo = await prisma.gerenteComercio.create({data:data, 
-            include:{comercio:true,gerente:true}})
+            include:{gerente:true}})
 
             if(!novo) return 1
             return novo
@@ -21,7 +21,7 @@ class GerenteComercioService
     {
         try 
         {
-            const gerentes = await prisma.gerenteComercio.findMany({include:{comercio:true,gerente:true}})
+            const gerentes = await prisma.gerenteComercio.findMany({include:{gerente:true}})
             if(!gerentes) return 1
             return gerentes
         } catch (error) 
@@ -37,7 +37,7 @@ class GerenteComercioService
             const elementAtualizado = await prisma.gerenteComercio.update(
                 {
                     data:novoElement,
-                    include:{comercio:true,gerente:true},
+                    include:{gerente:true},
                     where:{id:id}
                 })
             if(!elementAtualizado) return 1
