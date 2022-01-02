@@ -32,6 +32,7 @@ app.use(function(req, res, next) {
         next();
     }
 });
+
 app.use("/auth/usuario",routeUsuarioAuth)
 app.use("/auth/comercio",routeComercioAuth)
 app.use("/usuario",routeUsuario)
