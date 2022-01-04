@@ -36,8 +36,8 @@ class ComercioAutenticacao
             if(token)
             {
                 console.log("Token => "+token);
-                
-                return response.send({token ,comercioResponse})
+                const comercio = comercioResponse
+                return response.send({token ,comercio})
                 
             }
             else

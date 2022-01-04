@@ -20,7 +20,11 @@ class ComercioService
     {
         try 
         {
-            const produtos = await prisma.produto.findMany()
+            const produtos = await prisma.produto.findMany(
+                {include:
+                    {comercio:{
+                        select:{id:true,nome:true,foto:true,status:true}
+                    },categoria:true}})
             if(!produtos) return 1
             return produtos
         } catch (error) 

@@ -36,8 +36,8 @@ class UsuarioAutenticacao
             if(token)
             {
                 console.log("Token => "+token);
-                
-                return response.send({token ,usuarioResponse})
+                const usuario = usuarioResponse
+                return response.send({token ,usuario})
                 
             }
             else

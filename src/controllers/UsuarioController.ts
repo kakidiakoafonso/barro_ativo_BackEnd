@@ -1,5 +1,7 @@
 import {Request,Response} from "express"
 import UsuarioService from "../service/UsuarioService"
+import {sign} from 'jsonwebtoken'
+
 
 const service = new UsuarioService()
 class Usuariocotroller 
@@ -18,7 +20,30 @@ class Usuariocotroller
             {
                 response.send("Usuario nao criado")
             }
-            response.status(201).send(usuarioCriado)
+            else
+            {
+               
+
+            const token = sign(
+                {
+                    usuario:usuarioCriado
+                },
+                process.env.JWT_SECRET,
+                {
+                    subject:JSON.stringify(usuarioCriado),
+                    expiresIn: '10d'
+                })
+                if(token)
+                {
+                    console.log("Token => "+token);
+                    const usuario = usuarioCriado 
+                    return response.status(201).send({token ,usuario})
+                    
+                }
+                else
+                    return response.status(500).send("Erro ao criar token")
+
+            }
         } catch (error) 
         {
             response.send(error)
@@ -46,10 +71,10 @@ class Usuariocotroller
     async update(request:Request,response:Response) 
     {
         const dadosUsuario = request.body
-        const id = "e67a8b8f-01ac-421a-8ec5-c15c87601c33"
+        const idUsuario = request.params.id
         try 
         {
-            const usuarioCriado = await service.update(dadosUsuario,id)
+            const usuarioCriado = await service.update(dadosUsuario,idUsuario)
             if(usuarioCriado=== 0)
             {
                 response.send("Email ou cpf ja usado")
@@ -66,10 +91,10 @@ class Usuariocotroller
     }
     async delete(request:Request,response:Response) 
     {
-        const id = "e67a8b8f-01ac-421a-8ec5-c15c87601c33"
+        const idUsuario = request.params.id
         try 
         {
-            const usuarioRemovido = await service.delete(id)
+            const usuarioRemovido = await service.delete(idUsuario)
             if(usuarioRemovido=== 0)
             {
                 response.send("Erro do servidor")

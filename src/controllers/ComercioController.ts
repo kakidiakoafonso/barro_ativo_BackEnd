@@ -1,5 +1,6 @@
 import {Request,Response} from "express"
 import ComercioService from "../service/ComercioService"
+import {sign} from "jsonwebtoken"
 
 const service = new ComercioService()
 class GerenteController 
@@ -18,7 +19,28 @@ class GerenteController
             {
                 response.send("Gerente nao criado")
             }
-            response.send(comercioCriado)
+            else
+            {
+                const token = sign(
+                    {
+                        usuario:comercioCriado
+                    },
+                    process.env.JWT_SECRET,
+                    {
+                        subject:JSON.stringify(comercioCriado),
+                        expiresIn: '10d'
+                    })
+                    if(token)
+                    {
+                        console.log("Token => "+token);
+                        const comercio = comercioCriado 
+                        return response.status(201).send({token ,comercio})
+                        
+                    }
+                    else
+                        return response.status(500).send("Erro ao criar token")
+    
+            }
         } catch (error) 
         {
             response.send(error)
@@ -46,10 +68,10 @@ class GerenteController
     async update(request:Request,response:Response) 
     {
         const dadosComercio = request.body
-        const id = "2343e711-8fff-48aa-bc6f-7b5eb9ffd2dc"
+        const idComercio = request.params.id
         try 
         {
-            const comercioAtualizado = await service.update(dadosComercio,id)
+            const comercioAtualizado = await service.update(dadosComercio,idComercio)
             if(comercioAtualizado=== 0)
             {
                 response.send("Email ou cpf ja usado")
@@ -66,10 +88,10 @@ class GerenteController
     }
     async delete(request:Request,response:Response) 
     {
-        const id = "2343e711-8fff-48aa-bc6f-7b5eb9ffd2dc"
+        const idComercio = request.params.id
         try 
         {
-            const comerioRemovido = await service.delete(id)
+            const comerioRemovido = await service.delete(idComercio)
             if(comerioRemovido=== 0)
             {
                 response.send("Erro do servidor")

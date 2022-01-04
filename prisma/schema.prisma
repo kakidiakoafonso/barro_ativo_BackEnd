@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -18,29 +18,20 @@ model Usuario {
   foto String @default("")
   endereco String
   cpf String @unique
-  latitude String
-  longitude String
+  pedido Pedido[]
 }
+
 
 model Gerente {
   id String @default(uuid()) @id
   nome String
   email String @unique
   senha String
-  foto String @default("qwerty")
+  foto String @default("https://unsplash.com/photos/iFgRcqHznqg")
   endereco String
   cpf String @unique
-  latitude String
-  longitude String
-  gerenteComercio GerenteComercio[]
-
-}
-
-model GerenteComercio {
-  id String @default(uuid()) @id
-  idGerente String
-  idComercio String
-  gerente Gerente @relation (fields: [idGerente],references:[id])
+  idcomercio String
+  comercio Comercio @relation(fields: [idcomercio], references:[id])
 }
 
 model Comercio {
@@ -50,19 +41,16 @@ model Comercio {
   senha String
   foto String @default("https://unsplash.com/photos/iFgRcqHznqg")
   endereco String
-  categoria String
   telefone String
   status Boolean
-  ProdutoComercio ProdutoComercio[]
+  gerente Gerente?
+  Produto Produto[]
 }
 
-
-model ProdutoComercio {
+model categoria{
   id String @default(uuid()) @id
-  idProduto String
-  idComercio String
-  produto Produto @relation(fields: [idProduto],references:[id])
-  comercio Comercio @relation(fields: [idComercio],references:[id])
+  categoria String
+  produto Produto[]
 }
 
 model Produto{
@@ -70,27 +58,28 @@ model Produto{
   nome String
   foto String
   descricao String
-  preco String
+  preco Float
   quantidade Int @default(0)
-  ProdutoComercio ProdutoComercio[]
+  comercio Comercio @relation(fields: [idComercio], references:[id])
+  categoria categoria @relation(fields: [idCategoria], references:[id])
+  idComercio String 
+  idCategoria String
+  carrinho Carrinho[]
 }
 
-
-
-// model Categoria{
-//   id String @default(uuid()) @id
-//   nome String @unique
-//   descricao String
-//   quantidade Int @default(0)
-
-// }
-
-// model ProdutoCategoria{
-//    id String @default(uuid()) @id
-//    idCategoria String
-//    idProduto String
-//    idProdutoComercio String
-//    produtoComercio ProdutoComercio @relation(fields: [idProdutoComercio],references:[id])
-//    produto Produto @relation(fields: [idProduto],references:[id])
-//    categoria Categoria @relation(fields: [idCategoria],references:[id])
-// }
+model Pedido{
+  id String @default(uuid())@id
+  estado Int @default(1)
+  dataEntrega DateTime @default(now()) 
+  usuario Usuario @relation(fields: [idUsuario],references:[id])
+  idUsuario String
+  carrinho Carrinho[]
+}
+model Carrinho{
+  id String @default(uuid() )@id
+  quantidade Int @default(0)
+  produto Produto @relation( fields:[idProduto], references:[id])
+  pedido Pedido @relation( fields:[idPedido], references:[id])
+  idProduto String
+  idPedido String  
+}
