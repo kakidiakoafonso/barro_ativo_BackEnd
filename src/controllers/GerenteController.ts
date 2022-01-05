@@ -12,11 +12,11 @@ class GerenteController
             const gerenteCriado = await service.create(novoGerente)
             if(gerenteCriado=== 0)
             {
-                response.send("Email ou cpf ja usado")
+                response.status(400).send("Email ou cpf ja usado")
             }
             if(gerenteCriado=== 1)
             {
-                response.send("Gerente nao criado")
+                response.status(400).send("Gerente nao criado")
             }
             response.send(gerenteCriado)
         } catch (error) 
@@ -46,10 +46,10 @@ class GerenteController
     async update(request:Request,response:Response) 
     {
         const dadosGerentes = request.body
-        const id = "0d1d9eaf-d5b0-4512-8d47-e3e7105a9320"
+        const idComercio = request.params.id
         try 
         {
-            const gerenteAtualizado = await service.update(dadosGerentes,id)
+            const gerenteAtualizado = await service.update(dadosGerentes,idComercio)
             if(gerenteAtualizado=== 0)
             {
                 response.send("Email ou cpf ja usado")
@@ -66,10 +66,11 @@ class GerenteController
     }
     async delete(request:Request,response:Response) 
     {
-        const id = "e67a8b8f-01ac-421a-8ec5-c15c87601c33"
+        
+        const idComercio = request.params.id
         try 
         {
-            const gerenteRemovido = await service.delete(id)
+            const gerenteRemovido = await service.delete(idComercio)
             if(gerenteRemovido=== 0)
             {
                 response.send("Erro do servidor")

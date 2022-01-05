@@ -1,9 +1,9 @@
 import {Request,Response} from "express"
 import ProdutoService from "../service/ProdutoService"
-import ProdutoComercioService from "../service/ProdutoComercioService"
+// import ProdutoComercioService from "../service/ProdutoComercioService"
 
 const produtoService = new ProdutoService()
-const produtoComercioService = new ProdutoComercioService()
+// const produtoComercioService = new ProdutoComercioService()
 
 
 
@@ -18,17 +18,16 @@ class GerenteController
 {
     async create(request:Request,response:Response) 
     {
-        const idComercio = request.body.comercio.id
-        console.log(idComercio);
-        
-        
+       
         const novoProduto = 
         {
             nome: request.body.nome,
             foto: request.body.foto,
             descricao: request.body.descricao,
             preco: request.body.preco,
-            quantidade: request.body.quantidade
+            quantidade: request.body.quantidade,
+            idComercio: request.body.idComercio,
+            idCategoria: request.body.idCategoria
         }
         try 
         {
@@ -41,22 +40,8 @@ class GerenteController
             {
                 response.send("Gerente nao criado")
             }
-            if(produtoCriado!==1 &&produtoCriado!==0)
-            {
-                let idProduto = produtoCriado.id
-                let idComercio = request.body.comercio.id
-                
-                const novoProdutoComercio = await produtoComercioService.create(idProduto,idComercio)
-                if(novoProdutoComercio=== 0)
-                {
-                    return response.send("Erro ao criar relacao, ja existe")
-                }
-                if(novoProdutoComercio=== 1)
-                {
-                    return response.send("Erro ao criar relacao, nao criado")
-                }
-                return response.send(produtoCriado)
-            }
+            const produto = produtoCriado
+            return response.status(200).send(produtoCriado)
         } catch (error) 
         {
             response.send(error)
@@ -84,10 +69,10 @@ class GerenteController
     async update(request:Request,response:Response) 
     {
         const dadosProdutos = request.body
-        const id = request.params.id
+        const idProduto = request.params.id
         try 
         {
-            const produtoAtualizado = await produtoService.update(dadosProdutos,id)
+            const produtoAtualizado = await produtoService.update(dadosProdutos,idProduto)
             if(produtoAtualizado=== 0)
             {
                 response.send("Email ou cpf ja usado")
@@ -104,10 +89,10 @@ class GerenteController
     }
     async delete(request:Request,response:Response) 
     {
-        const id = request.params.id
+        const idProduto = request.params.id
         try 
         {
-            const produtoRemovido = await produtoService.delete(id)
+            const produtoRemovido = await produtoService.delete(idProduto)
             if(produtoRemovido=== 0)
             {
                 response.send("Erro do servidor")

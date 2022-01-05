@@ -20,7 +20,7 @@ class GernteService
     {
         try 
         {
-            const gerentes = await prisma.gerente.findMany()
+            const gerentes = await prisma.gerente.findMany({include:{comercio:true}})
             if(!gerentes) return 1
             return gerentes
         } catch (error) 

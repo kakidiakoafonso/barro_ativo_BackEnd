@@ -5,7 +5,7 @@ const routeGerente = Router()
 const controller = new Gerentecotroller()
 routeGerente.post("/",controller.create)
 routeGerente.get("/",controller.read)
-routeGerente.put("/",controller.update)
-routeGerente.delete("/",controller.delete)
+routeGerente.put("/:id",controller.update)
+routeGerente.delete("/:id",controller.delete)
 
 export default routeGerente
