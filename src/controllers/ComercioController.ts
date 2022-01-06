@@ -1,5 +1,6 @@
 import {Request,Response} from "express"
 import ComercioService from "../service/ComercioService"
+import {comercioTokenGenerator} from "../jobs/webtoken"
 import {sign} from "jsonwebtoken"
 
 const service = new ComercioService()
@@ -21,25 +22,17 @@ class GerenteController
             }
             else
             {
-                const token = sign(
-                    {
-                        usuario:comercioCriado
-                    },
-                    process.env.JWT_SECRET,
-                    {
-                        subject:JSON.stringify(comercioCriado),
-                        expiresIn: '10d'
-                    })
-                    if(token)
-                    {
-                        console.log("Token => "+token);
-                        const comercio = comercioCriado 
-                        return response.status(201).send({token ,comercio})
-                        
-                    }
-                    else
-                        return response.status(500).send("Erro ao criar token")
-    
+
+
+                const tokenGenerated = await comercioTokenGenerator(comercioCriado)
+                if(tokenGenerated.status==="error")
+                    return response.status(500).send("Erro ao criar token")
+                else
+                { 
+                    const token = tokenGenerated.data
+                    const comercio = comercioCriado 
+                    return response.status(201).send({token ,comercio})
+                }
             }
         } catch (error) 
         {

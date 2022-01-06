@@ -1,5 +1,6 @@
 import {Request,Response} from "express"
 import UsuarioService from "../service/UsuarioService"
+import {usuarioTokenGenerator} from "../jobs/webtoken"
 import {sign} from 'jsonwebtoken'
 
 
@@ -23,26 +24,15 @@ class Usuariocotroller
             else
             {
                
-
-            const token = sign(
-                {
-                    usuario:usuarioCriado
-                },
-                process.env.JWT_SECRET,
-                {
-                    subject:JSON.stringify(usuarioCriado),
-                    expiresIn: '10d'
-                })
-                if(token)
-                {
-                    console.log("Token => "+token);
-                    const usuario = usuarioCriado 
-                    return response.status(201).send({token ,usuario})
-                    
-                }
-                else
-                    return response.status(500).send("Erro ao criar token")
-
+            const tokenGenerated = await usuarioTokenGenerator(usuarioCriado)
+            if(tokenGenerated.status==="error")
+                return response.status(500).send("Erro ao criar token")
+            else
+            {
+                const usuario = usuarioCriado 
+                const token = tokenGenerated.data
+                return response.status(201).send({token ,usuario})
+            }
             }
         } catch (error) 
         {

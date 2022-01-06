@@ -105,7 +105,6 @@ class CarrinhoController {
     }
     async delete(request:Request,response:Response) 
     {
-        const carrinho = request.body
         const Idcarrinho = request.params.id
 
         try {
