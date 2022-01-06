@@ -71,5 +71,50 @@ class UsuarioService
             return 0
         }
     }
+    async AllPedidoUniquerUser(idUser:string) 
+    {
+        try 
+        {
+            const usuarios = await prisma.usuario.findMany({
+                where:{
+                    id:idUser
+                },
+                include:{
+                            pedido:{
+                                where: {
+                                    estado: 1,
+                                  },
+                                    include:{
+                
+                                        carrinho:{
+                                            select:{
+                
+                                                quantidade:true,
+                
+                                                    produto:{
+                                                        select:{
+                                                            nome:true,
+                                                            foto:true,
+                                                            preco:true,
+                                                            
+                                                        
+                                                    }
+                                                }
+                                            },  
+                                               
+                                        }
+                
+                                    }
+                            }
+                }
+            })
+            if(!usuarios) return 1
+            return usuarios
+        } catch (error) 
+        {
+            console.log(error);
+            return 0
+        }
+    }
 }
 export = UsuarioService

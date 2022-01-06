@@ -21,7 +21,7 @@ class PedidoService{
         try 
         {
             const pedidos = await prisma.pedido.findMany({
-                where: { idUsuario: idUsuario },
+                where: { id: idUsuario },
                 include:{carrinho:true}
               })
             if(!pedidos) return 1
@@ -39,15 +39,12 @@ class PedidoService{
         try {
             const pedidos = await prisma.pedido.findMany({
                 where: {
-                    estado: 1,
+                    estado: 1
                   },
                     include:{
 
                         carrinho:{
                             select:{
-
-                                quantidade:true,
-
                                     produto:{
                                         select:{
                                             nome:true,
@@ -56,7 +53,10 @@ class PedidoService{
                                             
                                         
                                     }
-                                }
+                                },
+                                quantidade:true
+
+                                   
                             },  
                                
                         }, usuario:{

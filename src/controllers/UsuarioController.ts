@@ -109,5 +109,25 @@ class Usuariocotroller
             response.send(error)
         }
     }
+    async findSingleUserRequest(request:Request,response:Response) 
+    {
+        const id = "7df970a7-3516-4251-940c-3c63747cdcff"
+        try 
+        {
+            const usuarios = await service.AllPedidoUniquerUser(id)
+            if(usuarios=== 0)
+            {
+                response.send("Sem usuarios")
+            }
+            if(usuarios=== 1)
+            {
+                response.send("Usuario nao criado")
+            }
+            response.send(usuarios)
+        } catch (error) 
+        {
+            response.send(error)
+        }
+    }
 }
 export = Usuariocotroller

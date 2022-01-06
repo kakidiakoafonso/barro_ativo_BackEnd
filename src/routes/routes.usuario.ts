@@ -7,5 +7,5 @@ routeUsuario.post("/",controller.create)
 routeUsuario.get("/",controller.read)
 routeUsuario.put("/:id",controller.update)
 routeUsuario.delete("/:id",controller.delete)
-
+routeUsuario.get("/pedidoActivoUsuario",controller.findSingleUserRequest)
 export default routeUsuario
