@@ -111,7 +111,7 @@ class Usuariocotroller
     }
     async findSingleUserRequest(request:Request,response:Response) 
     {
-        const id = "7df970a7-3516-4251-940c-3c63747cdcff"
+        const id = request.params.id
         try 
         {
             const usuarios = await service.AllPedidoUniquerUser(id)

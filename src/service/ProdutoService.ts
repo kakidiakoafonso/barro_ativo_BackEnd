@@ -53,10 +53,16 @@ class ComercioService
     async delete(id:string) 
     {
         try 
-        {
-            const produtoDeletado = await prisma.produto.delete({where:{id:id}})
-            if(!produtoDeletado) return 1
-            return produtoDeletado
+        {  const deletecarrinho = prisma.carrinho.deleteMany({
+            where:{idProduto:id},
+          })
+          
+          const deleteproduto = prisma.produto.delete({
+            where:{id:id}
+          })
+          const transaction = await prisma.$transaction([deletecarrinho, deleteproduto])
+            if(!transaction) return 1
+            return transaction
         } catch (error) 
         {
             console.log(error);

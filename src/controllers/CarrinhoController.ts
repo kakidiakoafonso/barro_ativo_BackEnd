@@ -109,16 +109,16 @@ class CarrinhoController {
         const Idcarrinho = request.params.id
 
         try {
-            const carrinhoActualizado = await service.update(carrinho,Idcarrinho)
-            if(carrinhoActualizado=== 0)
+            const carrinhodeletado = await service.delete(Idcarrinho)
+            if(carrinhodeletado=== 0)
             {
                 response.send("Somoting Happen")
             }
-            if(carrinhoActualizado=== 1)
+            if(carrinhodeletado=== 1)
             {
                 response.send("carrinho n efectuado")
             }
-            response.status(201).send({msg:"Item removido",carrinho:carrinhoActualizado})
+            response.status(201).send({msg:"Item removido",carrinho:carrinhodeletado})
         } catch (error) {
             
         }

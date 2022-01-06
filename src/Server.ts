@@ -11,6 +11,7 @@ import { AuthCheckUsuario } from "./middleware/AuhtCheckUsuario"
 import { AuthCheckComercio } from "./middleware/AuhtCheckComercio"
 import routePedido from "./routes/routes.pedido"
 import routeCarrinhho from "./routes/routes.carrinho"
+import routecategoria from "./routes/routes.categoria"
 
 
 
@@ -27,6 +28,7 @@ app.use("/comercio",routeComercio)
 app.use("/produto",routeProduto)
 app.use("/pedido",routePedido)
 app.use("/carrinho",routeCarrinhho)
+app.use("/categoria",routecategoria)
 
 
 app.get("/",(req,res)=>

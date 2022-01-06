@@ -58,6 +58,7 @@ class CarrinhoService{
                  
                     pedido: {
 
+                       
                         include:{ 
                             usuario: {
                           

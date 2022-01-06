@@ -48,10 +48,16 @@ class UsuarioService
     async delete(id) 
     {
         try 
-        {
-            const usuarioDeletado = await prisma.usuario.delete({where:{id:id}})
-            if(!usuarioDeletado) return 1
-            return usuarioDeletado
+        {const deletepedido = prisma.pedido.deleteMany({
+            where:{idUsuario:id},
+          })
+          
+          const deleteusuario = prisma.usuario.delete({
+            where:{id:id}
+          })
+          const transaction = await prisma.$transaction([deletepedido, deleteusuario])
+            if(!transaction) return 1
+            return transaction
         } catch (error) 
         {
             console.log(error);

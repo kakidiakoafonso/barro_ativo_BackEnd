@@ -25,23 +25,23 @@ class PedidoController {
         }
     }
 
-    async readActivePedido(request:Request,response:Response){
-
-        const pedido = request.body
-
-        try {
-            const aciveStatus = await service.getAllactiveStatus()
-            if(pedido=== 0)
+    async PedidosActivos(request:Request,response:Response) 
+    {
+        try 
+        {
+            const pedidos = await service.pedidosActivos()
+            if(pedidos=== 0)
             {
-                response.send("No Result")
+                response.send("Sem pedidos")
             }
-            if(pedido=== 1)
+            if(pedidos=== 1)
             {
-                response.send("Pedido n efectuado")
+                response.send("pedidos nao criado")
             }
-            response.status(201).send(aciveStatus)
-        } catch (error) {
-            
+            response.send(pedidos)
+        } catch (error) 
+        {
+            response.send(error)
         }
     }
 
@@ -67,19 +67,19 @@ class PedidoController {
     }
     async readById(request:Request,response:Response) 
     {
-        let idUser : "645cde1b-12ac-4d36-a34d-6ee27ab22e02"
+        let idPedido = request.params.id
         try 
         {
-            const pedidos = await service.readById(idUser)
-            if(pedidos=== 0)
+            const pedidoApagado = await service.readById(idPedido)
+            if(pedidoApagado=== 0)
             {
                 response.send("Sem pedidos")
             }
-            if(pedidos=== 1)
+            if(pedidoApagado=== 1)
             {
-                response.send("pedidos nao criado")
+                response.send("pedidos nao apagado")
             }
-            response.send(pedidos)
+            response.send(pedidoApagado)
         } catch (error) 
         {
             response.send(error)

@@ -33,18 +33,22 @@ class PedidoService{
         }
     }
 
-    async getAllactiveStatus(){
+    async pedidosActivos(){
 
 
-        try {
+        try 
+        {
             const pedidos = await prisma.pedido.findMany({
                 where: {
-                    estado: 1
+                    estado: 1,
                   },
                     include:{
 
                         carrinho:{
                             select:{
+
+                                quantidade:true,
+
                                     produto:{
                                         select:{
                                             nome:true,
@@ -53,10 +57,7 @@ class PedidoService{
                                             
                                         
                                     }
-                                },
-                                quantidade:true
-
-                                   
+                                }
                             },  
                                
                         }, usuario:{
@@ -64,13 +65,12 @@ class PedidoService{
                                 nome:true
                             }
                         }
-
                     }
-
             })
             if(!pedidos) return 1
             return pedidos
-        } catch (error) {
+        } catch (error) 
+        {
             console.log(error);
             return 0
         }
@@ -103,6 +103,7 @@ class PedidoService{
                 {
                     data:novoPedido,
                     where:{id:idPedido}
+                    
                 })
             if(!PedidoActualizado) return 1
             return PedidoActualizado
@@ -116,11 +117,21 @@ class PedidoService{
 
     async delete(idPedido: string) 
     {
+       
         try 
         {
-            const pedidoDeletado = await prisma.pedido.delete({where:{id:idPedido}})
-            if(!pedidoDeletado) return 1
-            return pedidoDeletado
+
+            const deletecarrinho = prisma.carrinho.deleteMany({
+                where:{idPedido:idPedido},
+              })
+              
+              const deletepedido = prisma.pedido.delete({
+                where:{id:idPedido}
+              })
+              const transaction = await prisma.$transaction([deletecarrinho, deletepedido])
+
+            if(!transaction) return 1
+            return transaction
         } catch (error) 
         {
             console.log(error);
