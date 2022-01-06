@@ -7,10 +7,10 @@ class PedidoController {
 
     async create(request:Request,response:Response){
 
-        const idUsuario = request.body.usuario.id
+        const {id} = request.body.usuario
 
         try {
-            const newPedido = await service.create({idUsuario:idUsuario})
+            const newPedido = await service.create({idUsuario:id})
             if(newPedido=== 0)
             {
                 response.send("Somoting Happen")

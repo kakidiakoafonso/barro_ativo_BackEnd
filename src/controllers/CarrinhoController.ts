@@ -105,11 +105,10 @@ class CarrinhoController {
     }
     async delete(request:Request,response:Response) 
     {
-        const carrinho = request.body
         const Idcarrinho = request.params.id
 
         try {
-            const carrinhoActualizado = await service.update(carrinho,Idcarrinho)
+            const carrinhoActualizado = await service.delete(Idcarrinho)
             if(carrinhoActualizado=== 0)
             {
                 response.send("Somoting Happen")
