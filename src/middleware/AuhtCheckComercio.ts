@@ -23,7 +23,7 @@ export async function AuthCheckComercio (request:Request,response:Response,next:
                 return response.status(401).
                 json({error:"Erro na verificacao do token"})
             }
-            request.params.idComercio = dados.usuario.id
+            request.params.idComercio = dados.comercio.id
             // request.body.comercio = [...request.body.comercio,{fruta:"Manga"}]
             console.log(dados);
             
